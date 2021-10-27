@@ -8,7 +8,7 @@ import {
   View,
   TouchableOpacity,
   Keyboard,
-  Touchable,
+  ScrollView,
 } from "react-native";
 import Task from "./components/Task";
 
@@ -29,20 +29,28 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {/* TodaysTasks */}
-      <View style={styles.taskWrapper}>
-        <Text style={styles.sectionTitle}>Today's Tasks</Text>
-        <View style={styles.items}>
-          {taskItems.map((item, index) => {
-            return (
-              <TouchableOpacity key={index} onPress={() => completeTask(index)}>
-                <Task text={item} />
-              </TouchableOpacity>
-            );
-          })}
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.taskWrapper}>
+          <Text style={styles.sectionTitle}>Today's Tasks</Text>
+          <View style={styles.items}>
+            {taskItems.map((item, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => completeTask(index)}
+                >
+                  <Task text={item} />
+                </TouchableOpacity>
+              );
+            })}
+          </View>
         </View>
-      </View>
-      {/* write a task */}
+      </ScrollView>
       <KeyboardAvoidingView
         behaviour={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
@@ -63,7 +71,6 @@ export default function App() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
